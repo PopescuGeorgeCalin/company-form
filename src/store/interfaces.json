@@ -1,0 +1,8 @@
+{
+  "my-account-link.my-companies-link": {
+    "component": "MyCompaniesLink"
+  },
+  "my-account-link.my-companies-page": {
+    "component": "MyCompaniesPage"
+  }
+}

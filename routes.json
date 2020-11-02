@@ -1,0 +1,26 @@
+{
+  "graphqlPrivate1": {
+    "handler": "vtex.graphql-server@1.x/graphql",
+    "headers": {},
+    "path": "/_v/private/graphql/v1",
+    "public": true,
+    "version": "0.0.1",
+    "releasedAt": 1601162307822
+  },
+  "graphqlPublic1": {
+    "handler": "vtex.graphql-server@1.x/graphql",
+    "headers": {},
+    "path": "/_v/public/graphql/v1",
+    "public": true,
+    "version": "0.0.1",
+    "releasedAt": 1601162307822
+  },
+  "graphqlSegment1": {
+    "handler": "vtex.graphql-server@1.x/graphql",
+    "headers": {},
+    "path": "/_v/segment/graphql/v1",
+    "public": true,
+    "version": "0.0.1",
+    "releasedAt": 1601162307822
+  }
+}
