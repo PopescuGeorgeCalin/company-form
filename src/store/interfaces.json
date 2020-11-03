@@ -4,5 +4,8 @@
   },
   "my-account-link.my-companies-page": {
     "component": "MyCompaniesPage"
+  },
+  "my-account-link.my-companies-page-edit": {
+    "component": "MyCompaniesPageEdit"
   }
 }

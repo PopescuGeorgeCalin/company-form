@@ -2,7 +2,17 @@ query Companies($where: String) @context(scope: "private") {
   documents(
     acronym: "MC"
     where: $where
-    fields: ["companyName", "companyCIF"]
+    fields: [
+      "email",
+      "companyCIF",
+      "companyName",
+      "companyNrRegCom",
+      "bank",
+      "iban",
+      "strada",
+      "judet",
+      "oras"
+    ]
     schema: "healthmp-caregivers"
   ) @context(provider: "vtex.store-graphql") {
     cacheId

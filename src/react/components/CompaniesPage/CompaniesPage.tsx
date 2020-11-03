@@ -11,8 +11,8 @@ import {
 // @ts-ignore
 import { EmptyState } from 'vtex.styleguide'
 
-import { documentToProfile } from '../../helpers'
-import { useCompaniesRelationshipsQuery } from '../../hooks/useCompaniesRelationshipsQuery'
+import { normalizeFields } from '../../helpers'
+import { useCompaniesQuery } from '../../hooks/useCompaniesQuery'
 import CompaniesListItem from '../CompaniesListItem'
 
 const headerConfig = {
@@ -22,10 +22,10 @@ const headerConfig = {
 const CompaniesPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [email, setEmail] = useState<string>('')
-
-  const companiesQuery = useCompaniesRelationshipsQuery({
+  
+  const companiesQuery = useCompaniesQuery({
     variables: {
-      where: `clientEmail=${email}`,
+      where: `email=${email} AND active=true`,
     },
   })
 
@@ -59,11 +59,10 @@ const CompaniesPage = () => {
       {() =>
         companiesQuery.data?.documents.length ? (
           companiesQuery.data?.documents.map((document, index) => {
-            const companies = documentToProfile(document)
-
+            const company = normalizeFields(document)
             return (
               <CompaniesListItem
-                companyCIF={companies.companyCIF}
+                company={company}
                 key={index}
               />
             )

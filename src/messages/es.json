@@ -1,4 +1,6 @@
 {
   "store/my-companies.link": "Mis organizaciones",
-  "store/my-companies.page": "Mis organizaciones"
+  "store/my-companies.page": "Mis organizaciones",
+  "store/my-companies-edit.page": "Edit organization",
+  "commons.edit": "Edit"
 }

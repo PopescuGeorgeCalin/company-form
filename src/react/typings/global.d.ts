@@ -34,3 +34,18 @@ interface Client {
   name: string
   email: string
 }
+
+interface Company {
+  company: {
+    email: string,
+    companyCIF: string,
+    companyName: string,
+    companyNrRegCom: string,
+    bank: string,
+    iban: string,
+    strada: string,
+    judet: string,
+    oras: string,
+    id: string
+  }
+}

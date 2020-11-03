@@ -30,3 +30,15 @@ export const documentToProfile = (document: Document): Profile => {
 
   return { id, name, email, ...normalizedFields }
 }
+
+export const normalizeFields = (document: any): any => {
+  const { fields } = document;
+  return fields.reduce(
+    (prev: any, curr: any) => {
+      const { key, value } = curr
+
+      return { ...prev, [key]: value }
+    },
+    {}
+  )
+}
