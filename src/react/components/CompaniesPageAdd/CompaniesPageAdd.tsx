@@ -23,7 +23,7 @@ const headerConfig = {
   },
 }
 
-const CompaniesPageAdd = () => {
+const CompaniesPageAdd = (props: any) => {
   const [email, setEmail] = useState<string>("")
   const [counties, setCounties] = useState<Array<object>>([])
   const [cities, setCities] = useState<Array<object>>([])
@@ -42,7 +42,15 @@ const CompaniesPageAdd = () => {
   const [
     addDocument,
     { loading: addLoading , error: addError }
-  ] = useMutation(CREATE_DOCUMENT);
+  ] = useMutation(CREATE_DOCUMENT, {
+    onCompleted(data) {
+      console.log(data)
+      props.history.push("/my-companies?success=true")
+    },
+    onError(err) {
+      console.log(err)
+    }
+  });
 
 
   useEffect(() => {
@@ -69,7 +77,8 @@ const CompaniesPageAdd = () => {
 
     setCounties(countyOptions);
     setCities(cityOptions);
-  }, []);
+  }, [])
+
 
   useEffect(() => {
     console.log(addError);

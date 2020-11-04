@@ -11,6 +11,7 @@ import {
 // @ts-ignore
 import { EmptyState, Link, Button } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
+import Toast from '../shared/Toast'
 
 import { normalizeFields } from '../../helpers'
 import { useCompaniesQuery } from '../../hooks/useCompaniesQuery'
@@ -25,7 +26,8 @@ const headerConfig = {
   ),
 }
 
-const CompaniesPage = () => {
+const CompaniesPage = (props: any) => {
+  const [showToast, setShowToast] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [email, setEmail] = useState<string>('')
 
@@ -34,6 +36,12 @@ const CompaniesPage = () => {
       where: `active=true AND email=${email}`,
     },
   })
+
+  useEffect(() => {
+    const { location } = props;
+    setShowToast(location.search.indexOf('success=true') > -1 )
+  }, [])
+
 
   useEffect(() => {
     if (companiesQuery.loading) {
@@ -59,27 +67,31 @@ const CompaniesPage = () => {
         <SkeletonBox shouldAllowGrowing />
       </BaseLoading>
     )
-
+      console.log(showToast);
   return (
     <ContentWrapper {...headerConfig}>
-      {() =>
-        companiesQuery.data?.documents.length ? (
-          companiesQuery.data?.documents.map((document, index) => {
-            const company = normalizeFields(document)
-            return (
-              <CompaniesListItem
-                company={company}
-                key={index}
-              />
-            )
-          })
-        ) : (
-          <EmptyState title="Oops.">
-            <p>
-              Sorry. We couldn't find any companies associated with your user.
-            </p>
-          </EmptyState>
-        )
+      {() => {
+        const jsx = companiesQuery.data?.documents.length ? (
+            companiesQuery.data?.documents.map((document, index) => {
+              const company = normalizeFields(document)
+              return (
+                <CompaniesListItem
+                  company={company}
+                  key={index}
+                />
+              )
+            })
+          )
+          : (
+            [<EmptyState key="empty-state" title="Oops.">
+              <p>
+                Sorry. We couldn't find any companies associated with your user.
+              </p>
+            </EmptyState>]
+          )
+          if(showToast) jsx.push(<Toast key="toast-success" messageId="alert.success" onClose={() => setShowToast(false)} />)
+          return jsx;
+        }
       }
     </ContentWrapper>
   )

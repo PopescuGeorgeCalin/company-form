@@ -37,13 +37,19 @@ const CompaniesPageEdit = (props:any) => {
   const [cities, setCities] = useState<any>({})
   const [company, setCompany] = useState<any>({})
 
+  const companiesQuery = useCompaniesQuery({
+    variables: {
+      where: `active=true AND email=${email} AND id=${id}`,
+    },
+  })
+
   const [
     updateDocument,
     { loading: editLoading , error: editError }
   ] = useMutation(UPDATE_DOCUMENT, {
     onCompleted(data) {
       console.log(data)
-      // history.push("/my-companies")
+      props.history.push("/my-companies?success=true")
     },
     onError(err) {
       console.log(err)
@@ -52,26 +58,16 @@ const CompaniesPageEdit = (props:any) => {
   const [
     deleteDocument,
     { loading: deleteLoading , error: deleteError }
-  ] = useMutation(UPDATE_DOCUMENT);
-
-  const companiesQuery = useCompaniesQuery({
-    variables: {
-      where: `active=true AND email=${email} AND id=${id}`,
+  ] = useMutation(UPDATE_DOCUMENT, {
+    onCompleted(data) {
+      console.log(data)
+      props.history.push("/my-companies?success=true")
     },
-  })
-
-  useEffect(() => {
-    if (companiesQuery.loading) {
-      setIsLoading(true)
-    } else {
-      const document = companiesQuery.data?.documents[0];
-      if (document) {
-        const company = normalizeFields(document);
-        setCompany(company)
-        setIsLoading(false)
-      }
+    onError(err) {
+      console.log(err)
     }
-  }, [companiesQuery, email])
+  });
+
 
   useEffect(() => {
     fetch('/no-cache/profileSystem/getProfile')
@@ -82,6 +78,19 @@ const CompaniesPageEdit = (props:any) => {
         }
       })
   }, [email])
+
+  useEffect(() => {
+    if (companiesQuery.loading && email) {
+      setIsLoading(true)
+    } else {
+      const document = companiesQuery.data?.documents[0];
+      if (document) {
+        const company = normalizeFields(document);
+        setCompany(company)
+        setIsLoading(false)
+      }
+    }
+  }, [companiesQuery, email])
 
   useEffect(() => {
     const countyOptions = Object.keys(ROU).map((county: string) => {

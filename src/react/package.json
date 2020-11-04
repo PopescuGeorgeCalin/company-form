@@ -4,7 +4,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "test": "vtex-test-tools test"
+    "test": "vtex-test-tools test",
+    "lint": "eslint --ext js,jsx,ts,tsx .",
+    "format": "prettier --write \"**/*.{ts,js,json}\""
   },
   "dependencies": {
     "apollo-client": "^2.6.10",
