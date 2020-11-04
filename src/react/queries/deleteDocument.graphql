@@ -1,6 +1,0 @@
-mutation UpdateCompany($acronym: String!, $documentId: String!) {
-	updateDocument(acronym: $acronym, documentId: $documentId) 
-		@context(provider: "vtex.store-graphql") {
-		id
-	}
-}

@@ -1,6 +1,8 @@
 {
-  "store/my-companies.link": "Mis organizaciones",
-  "store/my-companies.page": "Mis organizaciones",
-  "store/my-companies-edit.page": "Edit organization",
-  "commons.edit": "Edit"
+  "my-companies.link": "Mis organizaciones",
+  "my-companies.page": "Mis organizaciones",
+  "my-companies-edit.page": "Edit organization",
+  "my-companies-add.page": "Add organization",
+  "commons.edit": "Edit",
+  "my-companies.addCompany": "Adaugă companie"
 }

@@ -24,11 +24,12 @@ const CompaniesListItem: FunctionComponent<Props> = ({company}) => {
   return (
   <div>
     <ContentBox
+      shouldAllowGrowing maxWidthStep={6}
       btnText={<FormattedMessage id="commons.edit" />}
-      btnHref={`/account#/my-companies/${company.id}`}
+      btnHref={`/account#/my-companies/edit/${company.id}`}
     >
       <div className="lighter c-muted-2 lh-copy pv4 w5 h4">
-          <CompanySummary 
+          <CompanySummary
             company={company}
           />
       </div>

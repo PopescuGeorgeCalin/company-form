@@ -9,23 +9,29 @@ import {
   SkeletonBox,
 } from 'vtex.my-account-commons'
 // @ts-ignore
-import { EmptyState } from 'vtex.styleguide'
+import { EmptyState, Link, Button } from 'vtex.styleguide'
+import { FormattedMessage } from 'react-intl'
 
 import { normalizeFields } from '../../helpers'
 import { useCompaniesQuery } from '../../hooks/useCompaniesQuery'
 import CompaniesListItem from '../CompaniesListItem'
 
 const headerConfig = {
-  titleId: 'store/my-companies.page',
+  titleId: 'my-companies.page',
+  headerContent: (
+    <Button variation="primary" block size="small" href="/account#/my-companies/add">
+      <FormattedMessage id="my-companies.addCompany" />
+    </Button>
+  ),
 }
 
 const CompaniesPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [email, setEmail] = useState<string>('')
-  
+
   const companiesQuery = useCompaniesQuery({
     variables: {
-      where: `email=${email} AND active=true`,
+      where: `active=true AND email=${email}`,
     },
   })
 

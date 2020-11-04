@@ -14,7 +14,7 @@ interface Props {
 const MyCaregiverLink: FC<Props> = ({ render, intl }: Props) => {
   return render([
     {
-      name: intl.formatMessage({ id: 'store/my-companies.link' }),
+      name: intl.formatMessage({ id: 'my-companies.link' }),
       path: '/my-companies',
     },
   ])

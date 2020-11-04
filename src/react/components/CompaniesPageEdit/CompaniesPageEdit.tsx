@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useEffect, useState } from 'react'
+// import { useHistory } from "react-router-dom"
+import { useMutation } from 'react-apollo'
 import {
   // @ts-ignore
   ContentWrapper,
@@ -13,33 +15,50 @@ import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
 import ContentBox from '../shared/ContentBox'
 import { useCompaniesQuery } from '../../hooks/useCompaniesQuery'
 import { normalizeFields } from '../../helpers'
+
 import ROU from '../../country'
+import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 
 const headerConfig = {
-  titleId: 'store/my-companies-edit.page',
+  titleId: 'my-companies-add.page',
   backButton: {
-    titleId: 'store/my-companies.page',
+    titleId: 'my-companies.page',
     path: '/my-companies',
   },
 }
 
 const CompaniesPageEdit = (props:any) => {
-  const { id }  = props.match?.params; 
+  // const history = useHistory();
+
+  const { id }  = props.match?.params;
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [email, setEmail] = useState<object>({})
+  const [email, setEmail] = useState<string>('')
   const [counties, setCounties] = useState<any>({})
   const [cities, setCities] = useState<any>({})
-  const [company, setCompany] = useState<any>({
-    id: "",
-    fields: []
-  })
+  const [company, setCompany] = useState<any>({})
+
+  const [
+    updateDocument,
+    { loading: editLoading , error: editError }
+  ] = useMutation(UPDATE_DOCUMENT, {
+    onCompleted(data) {
+      console.log(data)
+      // history.push("/my-companies")
+    },
+    onError(err) {
+      console.log(err)
+    }
+  });
+  const [
+    deleteDocument,
+    { loading: deleteLoading , error: deleteError }
+  ] = useMutation(UPDATE_DOCUMENT);
 
   const companiesQuery = useCompaniesQuery({
     variables: {
-      where: `email=${email} AND id=${id}`,
+      where: `active=true AND email=${email} AND id=${id}`,
     },
   })
-
 
   useEffect(() => {
     if (companiesQuery.loading) {
@@ -80,6 +99,13 @@ const CompaniesPageEdit = (props:any) => {
     setCities(cityOptions);
   }, []);
 
+  useEffect(() => {
+    console.log(editError);
+  }, [editError]);
+
+  useEffect(() => {
+    console.log(deleteError);
+  }, [deleteError]);
 
   if (isLoading)
     return (
@@ -87,26 +113,38 @@ const CompaniesPageEdit = (props:any) => {
         <SkeletonBox shouldAllowGrowing />
       </BaseLoading>
     )
-  
-  const updateInputField = ( { target } : { target: HTMLInputElement }): void => 
+
+  const updateInputField = ( { target } : { target: HTMLInputElement }): void =>
     setCompany({...company, [target.name]: target.value})
-  
-  const updateDropdownField = ({ target } : { target: HTMLInputElement}, value: string): void => 
+
+  const updateDropdownField = ({ target } : { target: HTMLInputElement}, value: string): void =>
     setCompany({...company, [target.name]: value})
 
   const handleEditCompany = () => {
-    console.log("click edit")
+    const fields = Object.keys(company).map((key) => {return {key, value: company[key]}})
+    const document = { fields }
+    updateDocument({
+      variables: { acronym: "MC", document }
+    })
   }
 
   const handleDeleteCompany = () => {
-    console.log("click save")
+    const document = {
+      fields: [
+        {"key": "id",     "value": company.id},
+        {"key": "active", "value": false}
+      ]
+    }
+    deleteDocument({
+      variables: { acronym: "MC", document }
+    })
   }
 
   return (
     <ContentWrapper {...headerConfig}>
       {() =>
         company ? (
-          <ContentBox >
+          <ContentBox shouldAllowGrowing maxWidthStep={6}>
               <div className="mb5">
                 <Input
                   placeholder="CIF"
@@ -190,18 +228,22 @@ const CompaniesPageEdit = (props:any) => {
               </div>
 
               <div className="mt5">
-                <Button 
+                <Button
+                  block
                   variation="primary"
                   size="small"
+                  isLoading={editLoading}
                   onClick={handleEditCompany}
                 >
                   Save
                 </Button>
               </div>
               <div className="mt5">
-                <Button 
+                <Button
+                  block
                   variation="danger"
                   size="small"
+                  isLoading={deleteLoading}
                   onClick={handleDeleteCompany}
                 >
                   Delete
