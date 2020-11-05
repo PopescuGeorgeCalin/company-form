@@ -8,7 +8,7 @@ import {
   ContentWrapper,
   // @ts-ignore
   BaseLoading,
-  SkeletonBox,
+  // SkeletonBox,
 } from 'vtex.my-account-commons'
 // @ts-ignore
 import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
@@ -32,10 +32,18 @@ const CompaniesPageEdit = (props:any) => {
   const { profile: { Email: email } } = props;
 
   const { id }  = props.match?.params;
-  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [counties, setCounties] = useState<any>({})
   const [cities, setCities] = useState<any>({})
-  const [company, setCompany] = useState<any>({})
+  const [company, setCompany] = useState<any>({
+    "companyCIF": {},
+    "companyName": {},
+    "companyNrRegCom": {},
+    "bank": {},
+    "iban": {},
+    "strada": {},
+    "judet": {},
+    "oras": {}
+  })
 
   const companiesQuery = useGetCompaniesQuery({
     variables: {
@@ -76,14 +84,11 @@ const CompaniesPageEdit = (props:any) => {
   });
 
   useEffect(() => {
-    if (companiesQuery.loading) {
-      setIsLoading(true)
-    } else {
+    if (!companiesQuery.loading) {
       const document = companiesQuery.data?.documents[0];
       if (document) {
         const company = normalizeFields(document);
         setCompany(company)
-        setIsLoading(false)
       }
     }
   }, [companiesQuery])
@@ -112,12 +117,12 @@ const CompaniesPageEdit = (props:any) => {
     console.log(deleteError);
   }, [deleteError]);
 
-  if (isLoading)
-    return (
-      <BaseLoading queryData={companiesQuery} headerConfig={headerConfig}>
-        <SkeletonBox shouldAllowGrowing />
-      </BaseLoading>
-    )
+  // if (isLoading)
+  //   return (
+  //     <BaseLoading queryData={companiesQuery} headerConfig={headerConfig}>
+  //       <SkeletonBox shouldAllowGrowing />
+  //     </BaseLoading>
+  //   )
 
   const updateInputField = ( { target } : { target: HTMLInputElement }): void =>
     setCompany({...company, [target.name]: target.value})
