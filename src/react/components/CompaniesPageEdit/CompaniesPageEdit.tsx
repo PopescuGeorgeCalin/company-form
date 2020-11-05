@@ -13,11 +13,11 @@ import {
 // @ts-ignore
 import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
 import ContentBox from '../shared/ContentBox'
-import { useCompaniesQuery } from '../../hooks/useCompaniesQuery'
-import { normalizeFields } from '../../helpers'
-
 import ROU from '../../country'
+import { normalizeFields } from '../../helpers'
+import { useGetCompaniesQuery } from '../../hooks/useGetCompaniesQuery'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
+import GET_COMPANIES  from '../../queries/getCompanies.graphql'
 
 const headerConfig = {
   titleId: 'my-companies-add.page',
@@ -37,7 +37,7 @@ const CompaniesPageEdit = (props:any) => {
   const [cities, setCities] = useState<any>({})
   const [company, setCompany] = useState<any>({})
 
-  const companiesQuery = useCompaniesQuery({
+  const companiesQuery = useGetCompaniesQuery({
     variables: {
       where: `active=true AND email=${email} AND id=${id}`,
     },
@@ -47,25 +47,32 @@ const CompaniesPageEdit = (props:any) => {
     updateDocument,
     { loading: editLoading , error: editError }
   ] = useMutation(UPDATE_DOCUMENT, {
-    onCompleted(data) {
-      console.log(data)
+    onCompleted() {
       props.history.push("/my-companies?success=true")
     },
     onError(err) {
       console.log(err)
-    }
+    },
+    refetchQueries: [{
+      query: GET_COMPANIES,
+      variables: { where: `active=true AND email=${email}` }
+    }]
   });
+
   const [
     deleteDocument,
     { loading: deleteLoading , error: deleteError }
   ] = useMutation(UPDATE_DOCUMENT, {
-    onCompleted(data) {
-      console.log(data)
+    onCompleted() {
       props.history.push("/my-companies?success=true")
     },
     onError(err) {
       console.log(err)
-    }
+    },
+    refetchQueries: () => [{
+      query: GET_COMPANIES,
+      variables: { where: `active=true AND email=${email}` }
+    }]
   });
 
 

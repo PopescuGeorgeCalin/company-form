@@ -14,7 +14,7 @@ import { FormattedMessage } from 'react-intl'
 import Toast from '../shared/Toast'
 
 import { normalizeFields } from '../../helpers'
-import { useCompaniesQuery } from '../../hooks/useCompaniesQuery'
+import { useGetCompaniesQuery, Document } from '../../hooks/useGetCompaniesQuery'
 import CompaniesListItem from '../CompaniesListItem'
 
 const headerConfig = {
@@ -31,7 +31,7 @@ const CompaniesPage = (props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [email, setEmail] = useState<string>('')
 
-  const companiesQuery = useCompaniesQuery({
+  const companiesQuery = useGetCompaniesQuery({
     variables: {
       where: `active=true AND email=${email}`,
     },
@@ -67,12 +67,11 @@ const CompaniesPage = (props: any) => {
         <SkeletonBox shouldAllowGrowing />
       </BaseLoading>
     )
-      console.log(showToast);
   return (
     <ContentWrapper {...headerConfig}>
       {() => {
         const jsx = companiesQuery.data?.documents.length ? (
-            companiesQuery.data?.documents.map((document, index) => {
+            companiesQuery.data?.documents.map((document: Document, index: number) => {
               const company = normalizeFields(document)
               return (
                 <CompaniesListItem

@@ -4,5 +4,6 @@
   "my-companies-edit.page": "my-companies-edit.page",
   "my-companies-add.page": "my-companies-ad.page",
   "commons.edit": "commons.edit",
-  "my-companies.addCompany": "Adaugă companie"
+  "my-companies.addCompany": "Adaugă companie",
+  "alert.success": "Informațiile tale au fost salvate cu succes."
 }

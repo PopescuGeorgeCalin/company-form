@@ -1,4 +1,4 @@
-query Companies($where: String) @context(scope: "private") {
+query GetCompany($where: String) @context(scope: "private") {
   documents(
     acronym: "MC"
     where: $where

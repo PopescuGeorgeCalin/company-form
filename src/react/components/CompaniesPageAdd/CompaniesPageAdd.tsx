@@ -14,6 +14,7 @@ import ContentBox from '../shared/ContentBox'
 
 import ROU from '../../country'
 import CREATE_DOCUMENT from '../../queries/createDocument.graphql'
+import GET_COMPANIES  from '../../queries/getCompanies.graphql'
 
 const headerConfig = {
   titleId: 'my-companies-add.page',
@@ -49,7 +50,11 @@ const CompaniesPageAdd = (props: any) => {
     },
     onError(err) {
       console.log(err)
-    }
+    },
+    refetchQueries: () => [{
+      query: GET_COMPANIES,
+      variables: { where: `active=true AND email=${email}` }
+    }]
   });
 
 
