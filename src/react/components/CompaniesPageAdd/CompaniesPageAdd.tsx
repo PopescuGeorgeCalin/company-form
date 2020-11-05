@@ -11,7 +11,7 @@ import {
 // @ts-ignore
 import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
 import ContentBox from '../shared/ContentBox'
-
+import withProfile from '../hocs/withProfile'
 import ROU from '../../country'
 import CREATE_DOCUMENT from '../../queries/createDocument.graphql'
 import GET_COMPANIES  from '../../queries/getCompanies.graphql'
@@ -25,7 +25,7 @@ const headerConfig = {
 }
 
 const CompaniesPageAdd = (props: any) => {
-  const [email, setEmail] = useState<string>("")
+  const { profile: { Email: email } } = props;
   const [counties, setCounties] = useState<Array<object>>([])
   const [cities, setCities] = useState<Array<object>>([])
   const [company, setCompany] = useState<any>({
@@ -56,17 +56,6 @@ const CompaniesPageAdd = (props: any) => {
       variables: { where: `active=true AND email=${email}` }
     }]
   });
-
-
-  useEffect(() => {
-    fetch('/no-cache/profileSystem/getProfile')
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response.IsUserDefined) {
-          setEmail(response.Email)
-        }
-      })
-  }, [email])
 
   useEffect(() => {
     const countyOptions = Object.keys(ROU).map((county: string) => {
@@ -204,4 +193,4 @@ const CompaniesPageAdd = (props: any) => {
   )
 }
 
-export default CompaniesPageAdd
+export default withProfile(CompaniesPageAdd)

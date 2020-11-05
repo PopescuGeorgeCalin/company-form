@@ -13,6 +13,7 @@ import {
 // @ts-ignore
 import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
 import ContentBox from '../shared/ContentBox'
+import withProfile from '../hocs/withProfile';
 import ROU from '../../country'
 import { normalizeFields } from '../../helpers'
 import { useGetCompaniesQuery } from '../../hooks/useGetCompaniesQuery'
@@ -28,11 +29,10 @@ const headerConfig = {
 }
 
 const CompaniesPageEdit = (props:any) => {
-  // const history = useHistory();
+  const { profile: { Email: email } } = props;
 
   const { id }  = props.match?.params;
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [email, setEmail] = useState<string>('')
   const [counties, setCounties] = useState<any>({})
   const [cities, setCities] = useState<any>({})
   const [company, setCompany] = useState<any>({})
@@ -75,19 +75,8 @@ const CompaniesPageEdit = (props:any) => {
     }]
   });
 
-
   useEffect(() => {
-    fetch('/no-cache/profileSystem/getProfile')
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response.IsUserDefined) {
-          setEmail(response.Email)
-        }
-      })
-  }, [email])
-
-  useEffect(() => {
-    if (companiesQuery.loading && email) {
+    if (companiesQuery.loading) {
       setIsLoading(true)
     } else {
       const document = companiesQuery.data?.documents[0];
@@ -97,7 +86,7 @@ const CompaniesPageEdit = (props:any) => {
         setIsLoading(false)
       }
     }
-  }, [companiesQuery, email])
+  }, [companiesQuery])
 
   useEffect(() => {
     const countyOptions = Object.keys(ROU).map((county: string) => {
@@ -278,4 +267,4 @@ const CompaniesPageEdit = (props:any) => {
   )
 }
 
-export default CompaniesPageEdit
+export default withProfile(CompaniesPageEdit)

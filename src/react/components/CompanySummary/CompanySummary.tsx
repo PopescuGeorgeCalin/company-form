@@ -41,28 +41,13 @@ const CompanySummary = (props: Props) => {
   return (
   <div className={`address-summary`}>
     <div>
-      <span>
-        Nume:
-      </span>
-      <span>
-        {companyName}
-      </span>
+      <span>Nume: </span><span>{companyName}</span>
     </div>
     <div>
-      <span>
-        CIF:
-      </span>
-      <span>
-        {companyCIF}
-      </span>
+      <span>CIF: </span><span>{companyCIF}</span>
     </div>
     <div>
-      <span>
-        Adresa:
-      </span>
-      <span>
-        {`Judet ${judet}, oras ${oras}, strada ${strada}`}
-      </span>
+      <span>Adresa: </span><span>{`Judet ${judet}, oras ${oras}, strada ${strada}`}</span>
     </div>
   </div>
   )

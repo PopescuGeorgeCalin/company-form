@@ -12,6 +12,7 @@ import {
 import { EmptyState, Link, Button } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 import Toast from '../shared/Toast'
+import withProfile from '../hocs/withProfile';
 
 import { normalizeFields } from '../../helpers'
 import { useGetCompaniesQuery, Document } from '../../hooks/useGetCompaniesQuery'
@@ -27,10 +28,10 @@ const headerConfig = {
 }
 
 const CompaniesPage = (props: any) => {
+  const { profile: { Email: email } } = props;
   const [showToast, setShowToast] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [email, setEmail] = useState<string>('')
-
+  console.log(email);
   const companiesQuery = useGetCompaniesQuery({
     variables: {
       where: `active=true AND email=${email}`,
@@ -49,17 +50,7 @@ const CompaniesPage = (props: any) => {
     } else {
       setIsLoading(false)
     }
-  }, [companiesQuery, email])
-
-  useEffect(() => {
-    fetch('/no-cache/profileSystem/getProfile')
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response.IsUserDefined) {
-          setEmail(response.Email)
-        }
-      })
-  }, [email])
+  }, [companiesQuery])
 
   if (isLoading)
     return (
@@ -96,4 +87,4 @@ const CompaniesPage = (props: any) => {
   )
 }
 
-export default CompaniesPage
+export default withProfile(CompaniesPage);
