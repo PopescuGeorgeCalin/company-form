@@ -16,9 +16,10 @@ import ContentBox from '../shared/ContentBox'
 import withProfile from '../hocs/withProfile';
 import ROU from '../../country'
 import { normalizeFields } from '../../helpers'
-import { useGetCompaniesQuery } from '../../hooks/useGetCompaniesQuery'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 import GET_COMPANIES  from '../../queries/getCompanies.graphql'
+import GET_COMPANY  from '../../queries/getCompany.graphql'
+import { useGetCompanyQuery } from '../../hooks/useGetCompanyQuery'
 
 const headerConfig = {
   titleId: 'my-companies-add.page',
@@ -37,10 +38,10 @@ const CompaniesPageEdit = (props:any) => {
   const [cities, setCities] = useState<any>({})
   const [company, setCompany] = useState<any>({})
 
-  const companiesQuery = useGetCompaniesQuery({
+  const companyQuery = useGetCompanyQuery({
     variables: {
-      where: `active=true AND email=${email} AND id=${id}`,
-    },
+      id
+    }
   })
 
   const [
@@ -54,8 +55,8 @@ const CompaniesPageEdit = (props:any) => {
       console.log(err)
     },
     refetchQueries: [{
-      query: GET_COMPANIES,
-      variables: { where: `active=true AND email=${email}` }
+      query: GET_COMPANY,
+      variables: { id }
     }]
   });
 
@@ -76,17 +77,17 @@ const CompaniesPageEdit = (props:any) => {
   });
 
   useEffect(() => {
-    if (companiesQuery.loading) {
+    if (companyQuery.loading) {
       setIsLoading(true)
     } else {
-      const document = companiesQuery.data?.documents[0];
+      const document = companyQuery.data?.document;
       if (document) {
         const company = normalizeFields(document);
         setCompany(company)
         setIsLoading(false)
       }
     }
-  }, [companiesQuery])
+  }, [companyQuery])
 
   useEffect(() => {
     const countyOptions = Object.keys(ROU).map((county: string) => {
@@ -105,16 +106,16 @@ const CompaniesPageEdit = (props:any) => {
   }, []);
 
   useEffect(() => {
-    console.log(editError);
+    editError && console.log(editError);
   }, [editError]);
 
   useEffect(() => {
-    console.log(deleteError);
+    deleteError && console.log(deleteError);
   }, [deleteError]);
 
   if (isLoading)
     return (
-      <BaseLoading queryData={companiesQuery} headerConfig={headerConfig}>
+      <BaseLoading queryData={companyQuery} headerConfig={headerConfig}>
         <SkeletonBox shouldAllowGrowing />
       </BaseLoading>
     )

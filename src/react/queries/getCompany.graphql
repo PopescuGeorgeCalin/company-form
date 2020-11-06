@@ -1,7 +1,7 @@
-query GetCompany($where: String) @context(scope: "private") {
-  documents(
+query GetCompany($id: String) @context(scope: "private") {
+  document(
     acronym: "MC"
-    where: $where
+    id: $id
     fields: [
       "email",
       "companyCIF",
@@ -13,9 +13,7 @@ query GetCompany($where: String) @context(scope: "private") {
       "judet",
       "oras"
     ]
-    schema: "healthmp-caregivers"
   ) @context(provider: "vtex.store-graphql") {
-    cacheId
     id
     fields {
       key

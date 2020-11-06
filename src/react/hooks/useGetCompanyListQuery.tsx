@@ -1,6 +1,6 @@
 import { QueryHookOptions, useQuery } from 'react-apollo'
 
-import GET_COMPANY from '../queries/getCompany.graphql'
+import GET_COMPANY_LIST from '../queries/getCompanyList.graphql'
 
 export interface Data {
   document: Document
@@ -16,5 +16,5 @@ export interface Field {
   value: string
 }
 
-export const useGetCompanyQuery = (options: QueryHookOptions) =>
-  useQuery<Data>(GET_COMPANY, options)
+export const useGetCompanyListQuery = (options: QueryHookOptions) =>
+  useQuery<Data>(GET_COMPANY_LIST, options)
