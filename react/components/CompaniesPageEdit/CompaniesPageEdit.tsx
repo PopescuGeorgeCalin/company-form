@@ -13,22 +13,22 @@ import {
 } from 'vtex.my-account-commons'
 // @ts-ignore
 import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
+import { FormattedMessage } from 'react-intl'
 
 import ROU from '../../country'
 import ContentBox from '../shared/ContentBox'
 import withProfile from '../hocs/withProfile'
 import withCompanyList from '../hocs/withCompanyList'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
-import UPDATE_COMPANY from '../../queries/updateDocument.graphql'
 import GET_COMPANY_LIST from '../../queries/getCompanyList.graphql'
 import GET_COMPANY from '../../queries/getCompany.graphql'
 import { normalizeFields } from '../../helpers'
 import { useGetCompanyQuery } from '../../hooks/useGetCompanyQuery'
 
 const headerConfig = {
-  titleId: 'my-companies-add.page',
+  title: <FormattedMessage id="store/my-companies-edit.page" />,
   backButton: {
-    titleId: 'my-companies.page',
+    titleId: 'store/my-companies.page',
     path: '/my-companies',
   },
 }
@@ -80,9 +80,9 @@ const CompaniesPageEdit = (props: any) => {
   })
 
   const [
-    deleteDocument,
-    { loading: deleteLoading, error: deleteError },
-  ] = useMutation(UPDATE_COMPANY, {
+    deleteDocumentML,
+    { loading: deleteLoadingML, error: deleteErrorML },
+  ] = useMutation(UPDATE_DOCUMENT, {
     onCompleted() {
       props.history.push('/my-companies?success=true')
     },
@@ -95,6 +95,37 @@ const CompaniesPageEdit = (props: any) => {
         variables: { id: userId },
       },
     ],
+  })
+
+  const handleDeleteFromML = () => {
+    const newCompanyList = companyList
+      .filter((_companyId: string) => _companyId.trim() !== companyId.trim())
+      .join(',')
+
+    // document to change the ML entity
+    const document = {
+      fields: [
+        { key: 'id', value: userId },
+        { key: 'companyList', value: newCompanyList },
+      ],
+    }
+
+    deleteDocumentML({
+      variables: {
+        acronym: 'ML',
+        document,
+      },
+    })
+  }
+
+  const [
+    deleteDocument,
+    { loading: deleteLoading, error: deleteError },
+  ] = useMutation(UPDATE_DOCUMENT, {
+    onCompleted: handleDeleteFromML,
+    onError(err) {
+      console.log(err)
+    },
   })
 
   useEffect(() => {
@@ -162,37 +193,18 @@ const CompaniesPageEdit = (props: any) => {
   }
 
   const handleDeleteCompany = () => {
-    const newCompanyList = companyList
-      .filter((_companyId: string) => _companyId.trim() !== companyId.trim())
-      .join(',')
-
     // document to change the MC entity
-    const documentMC = {
+    const document = {
       fields: [
         { key: 'id', value: companyId },
         { key: 'active', value: false },
       ],
     }
 
-    // document to change the ML entity
-    const documentML = {
-      fields: [
-        { key: 'id', value: userId },
-        { key: 'companyList', value: newCompanyList },
-      ],
-    }
-
-    console.log({
-      variables: {
-        documentMC,
-        documentML,
-      },
-    })
-
     deleteDocument({
       variables: {
-        documentMC,
-        documentML,
+        acronym: 'MC',
+        document,
       },
     })
   }

@@ -17,11 +17,7 @@ const ContentBox: FunctionComponent<Props> = ({
         <main className="ph7 pv6">{children}</main>
         {btnText && (
           <footer className="flex justify-end ph3 pb3">
-            <Button
-              variation="tertiary"
-              size="small"
-              href={btnHref}
-            >
+            <Button variation="tertiary" size="small" href={btnHref}>
               {btnText}
             </Button>
           </footer>

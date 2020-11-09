@@ -31,7 +31,7 @@ class Toast extends Component<Props> {
 
   public render() {
     const { isClosing } = this.state
-    const { onClose, messageId } = this.props
+    const { onClose } = this.props
 
     return (
       <div
@@ -40,7 +40,7 @@ class Toast extends Component<Props> {
         }  slower bottom--1 fixed z-5 ma7-ns mb5-s left-2-ns w-100-s w-30-ns`}
       >
         <Alert type="success" onClose={onClose}>
-          <FormattedMessage id={messageId} />
+          <FormattedMessage id={'store/alert.success'} />
         </Alert>
       </div>
     )
@@ -50,7 +50,6 @@ class Toast extends Component<Props> {
 interface Props {
   autoClose: number
   onClose: () => void
-  messageId: string
 }
 
 export default Toast

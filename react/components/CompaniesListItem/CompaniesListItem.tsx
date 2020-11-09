@@ -36,7 +36,7 @@ const CompaniesListItem: FunctionComponent<Props> = ({ id }) => {
       <ContentBox
         shouldAllowGrowing
         maxWidthStep={6}
-        btnText={<FormattedMessage id="commons.edit" />}
+        btnText={<FormattedMessage id="store/commons.edit" />}
         btnHref={`/account#/my-companies/edit/${id}`}
       >
         <div className="lighter c-muted-2 lh-copy pv4 w5 h4">

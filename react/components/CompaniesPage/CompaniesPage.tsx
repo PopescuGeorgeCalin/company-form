@@ -16,7 +16,7 @@ import withCompanyList from '../hocs/withCompanyList'
 import CompaniesListItem from '../CompaniesListItem'
 
 const headerConfig = {
-  titleId: 'my-companies.page',
+  title: <FormattedMessage id="store/my-companies.page" />,
   headerContent: (
     <Button
       variation="primary"
@@ -24,7 +24,7 @@ const headerConfig = {
       size="small"
       href="/account#/my-companies/add"
     >
-      <FormattedMessage id="my-companies.addCompany" />
+      <FormattedMessage id="store/my-companies.addCompany" />
     </Button>
   ),
 }
@@ -60,11 +60,7 @@ const CompaniesPage = (props: any) => {
 
         if (showToast)
           jsx.push(
-            <Toast
-              key="toast-success"
-              messageId="alert.success"
-              onClose={() => setShowToast(false)}
-            />
+            <Toast key="toast-success" onClose={() => setShowToast(false)} />
           )
 
         return jsx

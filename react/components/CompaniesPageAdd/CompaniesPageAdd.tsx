@@ -9,6 +9,7 @@ import {
 } from 'vtex.my-account-commons'
 // @ts-ignore
 import { Input, Dropdown, Button } from 'vtex.styleguide'
+import { FormattedMessage } from 'react-intl'
 
 import ContentBox from '../shared/ContentBox'
 import withProfile from '../hocs/withProfile'
@@ -20,9 +21,9 @@ import GET_COMPANY_LIST from '../../queries/getCompanyList.graphql'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 
 const headerConfig = {
-  titleId: 'my-companies-add.page',
+  title: <FormattedMessage id="store/my-companies-add.page" />,
   backButton: {
-    titleId: 'my-companies.page',
+    titleId: 'store/my-companies.page',
     path: '/my-companies',
   },
 }

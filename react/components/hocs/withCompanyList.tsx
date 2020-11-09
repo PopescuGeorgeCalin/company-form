@@ -11,7 +11,7 @@ import { normalizeFields } from '../../helpers'
 export { React }
 
 const headerConfig = {
-  titleId: 'my-companies.page',
+  titleId: 'store/my-companies.page',
 }
 
 // this HOC must be used in combination with withProfile HOC (ex: withCompanyList(withProfile(ExampleComponent)))
@@ -60,8 +60,7 @@ const withCompanyList = (WrappedComponent: any): any => ({ ...props }) => {
 
   const document = companyListQuery?.data?.document
   const company = normalizeFields(document)
-  const companyList =
-    (company.companyList && company.companyList.split(',')) || []
+  const companyList = company.companyList?.split(',') || []
 
   return <WrappedComponent {...props} companyList={companyList} />
 }

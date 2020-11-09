@@ -1,5 +1,5 @@
 query GetCompanyList($id: String) @context(scope: "private") {
-  document(acronym: "CL", id: $id, fields: ["companyList"])
+  document(acronym: "ML", id: $id, fields: ["companyList"])
     @context(provider: "vtex.store-graphql") {
     id
     fields {

@@ -1,9 +1,9 @@
 {
-  "my-companies.link": "Minhas organizações",
-  "my-companies.page": "Minhas organizações",
-  "my-companies-edit.page": "Edit organization",
-  "my-companies-add.page": "Add organization",
-  "commons.edit": "Edit",
-  "my-companies.addCompany": "Adaugă companie",
-  "alert.success": "Informațiile tale au fost salvate cu succes."
+  "store/my-companies.link": "Minhas organizações",
+  "store/my-companies.page": "Minhas organizações",
+  "store/my-companies-edit.page": "Editar organização",
+  "store/my-companies-add.page": "adicionar organização",
+  "store/commons.edit": "Editar",
+  "store/my-companies.addCompany": "adicionar organização",
+  "store/alert.success": "Suas informações foram salvas com sucesso."
 }

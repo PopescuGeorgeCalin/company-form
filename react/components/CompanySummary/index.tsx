@@ -1,4 +1,3 @@
 import CompanySummary from './CompanySummary'
 
-
-export default CompanySummary;
+export default CompanySummary

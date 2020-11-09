@@ -11,13 +11,13 @@ interface Props {
   intl: any
 }
 
-const MyCaregiverLink: FC<Props> = ({ render, intl }: Props) => {
+const MyCompaniesLink: FC<Props> = ({ render, intl }: Props) => {
   return render([
     {
-      name: intl.formatMessage({ id: 'my-companies.link' }),
+      name: intl.formatMessage({ id: 'store/my-companies.link' }),
       path: '/my-companies',
     },
   ])
 }
 
-export default injectIntl(MyCaregiverLink)
+export default injectIntl(MyCompaniesLink)
