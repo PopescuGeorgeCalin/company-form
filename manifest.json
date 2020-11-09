@@ -11,15 +11,12 @@
     "store": "0.x"
   },
   "dependencies": {
-    "vtex.pages-graphql": "2.x",
-    "vtex.render-runtime": "8.x",
-    "vtex.docs-graphql": "0.x",
-    "vtex.messages": "1.x",
     "vtex.store": "2.x",
     "vtex.my-account": "1.x",
     "vtex.my-account-commons": "1.x",
     "vtex.styleguide": "9.x",
     "vtex.store-graphql": "2.x",
+    "vtex.render-runtime": "8.x",
     "vtex.telemarketing": "2.x",
     "vtex.store-resources": "0.x",
     "vtex.store-session": "0.x",
@@ -27,8 +24,7 @@
     "vtex.react-portal": "0.x",
     "vtex.store-icons": "0.x",
     "vtex.device-detector": "0.x",
-    "vtex.css-handles": "0.x",
-    "vtex.render-server": "8.x"
+    "vtex.css-handles": "0.x"
   },
   "scripts": {
     "postreleasy": "vtex publish --verbose && vtex deploy --verbose"
@@ -37,32 +33,5 @@
     "smartcheckout"
   ],
   "policies": [],
-  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema",
-  "_buildFeatures": {
-    "vtex.docs-graphql": [
-      "build.json",
-      "build.json"
-    ],
-    "vtex.rewriter": [
-      "build.json"
-    ],
-    "vtex.store-indexer": [
-      "build.json"
-    ],
-    "vtex.store-sitemap": [
-      "build.json"
-    ],
-    "vtex.builder-hub": [
-      "build.json"
-    ],
-    "vtex.pages-graphql": [
-      "build.json"
-    ],
-    "vtex.render-server": [
-      "build.json"
-    ],
-    "vtex.messages": [
-      "build.json"
-    ]
-  }
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
