@@ -13935,6 +13935,6 @@ const ROU: any = {
     'Vulcaneasa',
     'Vulturu',
   ],
-} 
+}
 
 export default ROU

@@ -5,8 +5,8 @@ import * as reactIntl from 'react-intl'
 export const injectIntl =
   'injectIntl' in reactIntl
     ? reactIntl.injectIntl
-    : (Component) => {
-        const InjectedComponent = (props) => {
+    : Component => {
+        const InjectedComponent = props => {
           const intl = reactIntl.useIntl()
 
           return <Component {...props} intl={intl} />

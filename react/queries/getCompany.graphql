@@ -3,14 +3,14 @@ query GetCompany($id: String) @context(scope: "private") {
     acronym: "MC"
     id: $id
     fields: [
-      "email",
-      "companyCIF",
-      "companyName",
-      "companyNrRegCom",
-      "bank",
-      "iban",
-      "strada",
-      "judet",
+      "email"
+      "companyCIF"
+      "companyName"
+      "companyNrRegCom"
+      "bank"
+      "iban"
+      "strada"
+      "judet"
       "oras"
     ]
   ) @context(provider: "vtex.store-graphql") {

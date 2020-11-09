@@ -33,6 +33,4 @@
 //   name: PropTypes.string
 // }
 
-
-
 // export default PropTypes.shape(Company)

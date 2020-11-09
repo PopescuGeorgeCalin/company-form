@@ -26,19 +26,17 @@ export const documentToProfile = (document: Document): Profile => {
   )
 
   const { firstName, lastName, email } = normalizedFields
-  const name = [firstName, lastName].filter((item) => item).join(' ')
+  const name = [firstName, lastName].filter(item => item).join(' ')
 
   return { id, name, email, ...normalizedFields }
 }
 
 export const normalizeFields = (document: any): any => {
-  const { fields } = document;
-  return fields.reduce(
-    (prev: any, curr: any) => {
-      const { key, value } = curr
+  const { fields } = document
 
-      return { ...prev, [key]: value }
-    },
-    {}
-  )
+  return fields.reduce((prev: any, curr: any) => {
+    const { key, value } = curr
+
+    return { ...prev, [key]: value }
+  }, {})
 }

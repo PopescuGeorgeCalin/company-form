@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useEffect, useState } from 'react'
@@ -5,18 +6,17 @@ import { useMutation } from 'react-apollo'
 import {
   // @ts-ignore
   ContentWrapper,
-  // @ts-ignore
-  BaseLoading,
 } from 'vtex.my-account-commons'
 // @ts-ignore
-import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
+import { Input, Dropdown, Button } from 'vtex.styleguide'
+
 import ContentBox from '../shared/ContentBox'
 import withProfile from '../hocs/withProfile'
 import withCompanyList from '../hocs/withCompanyList'
 import ROU from '../../country'
 import CREATE_DOCUMENT from '../../queries/createDocument.graphql'
-import GET_COMPANIES  from '../../queries/getCompanies.graphql'
-import GET_COMPANY_LIST  from '../../queries/getCompanyList.graphql'
+import GET_COMPANIES from '../../queries/getCompanies.graphql'
+import GET_COMPANY_LIST from '../../queries/getCompanyList.graphql'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 
 const headerConfig = {
@@ -28,103 +28,117 @@ const headerConfig = {
 }
 
 const CompaniesPageAdd = (props: any) => {
-  const { profile: { Email: email, UserId: userId }, companyList } = props;
-  const [counties, setCounties] = useState<Array<object>>([])
-  const [cities, setCities] = useState<Array<object>>([])
+  const {
+    profile: { Email: email, UserId: userId },
+    companyList,
+  } = props
+
+  const [counties, setCounties] = useState<any[]>([])
+  const [cities, setCities] = useState<any[]>([])
   const [company, setCompany] = useState<any>({
     email,
-    companyCIF: "",
-    companyName: "",
-    companyNrRegCom: "",
-    bank: "",
-    iban: "",
-    strada: "",
-    judet: "",
-    oras: "",
-    active: true
+    companyCIF: '',
+    companyName: '',
+    companyNrRegCom: '',
+    bank: '',
+    iban: '',
+    strada: '',
+    judet: '',
+    oras: '',
+    active: true,
   })
 
-  const [
-    addDocument,
-    { data: newDocument, loading: addLoading , error: addError }
-  ] = useMutation(CREATE_DOCUMENT, {
-    onCompleted({createDocument}) {
-      // remove first 3 caracters "MC-"
-      const newDocumentId = createDocument.id.substring(3)
-      const newCompanyList = [...companyList, newDocumentId].join(',')
-      const fields = [
-        { key: "id", value: userId },
-        { key: "companyList", value: newCompanyList}
-      ]
-      const document = { fields }
-      updateDocument({
-        variables: { acronym: "ML", document: document }
-      })
-    },
-    onError(err) {
-      console.log(err)
-    },
-    refetchQueries: () => [{
-      query: GET_COMPANIES,
-      variables: { where: `active=true AND email=${email}` }
-    }]
-  });
-
-  const [
-    updateDocument,
-  ] = useMutation(UPDATE_DOCUMENT, {
+  const [updateDocument] = useMutation(UPDATE_DOCUMENT, {
     onCompleted() {
-      props.history.push("/my-companies?success=true")
+      props.history.push('/my-companies?success=true')
     },
     onError(err) {
       console.log(err)
     },
-    refetchQueries: () => [{
-      query: GET_COMPANY_LIST,
-      variables: {
-        id: userId
-      }
-    }]
-  });
+    refetchQueries: () => [
+      {
+        query: GET_COMPANY_LIST,
+        variables: {
+          id: userId,
+        },
+      },
+    ],
+  })
+
+  const [addDocument, { loading: addLoading, error: addError }] = useMutation(
+    CREATE_DOCUMENT,
+    {
+      onCompleted({ createDocument }) {
+        // remove first 3 caracters "MC-"
+        const newDocumentId = createDocument.id.substring(3)
+        const newCompanyList = [...companyList, newDocumentId].join(',')
+        const fields = [
+          { key: 'id', value: userId },
+          { key: 'companyList', value: newCompanyList },
+        ]
+
+        const document = { fields }
+
+        updateDocument({
+          variables: { acronym: 'ML', document },
+        })
+      },
+      onError(err) {
+        console.log(err)
+      },
+      refetchQueries: () => [
+        {
+          query: GET_COMPANIES,
+          variables: { where: `active=true AND email=${email}` },
+        },
+      ],
+    }
+  )
 
   useEffect(() => {
     const countyOptions = Object.keys(ROU).map((county: string) => {
       return { value: county, label: county }
-    });
+    })
 
     const cityOptions = Object.keys(ROU).reduce((acc: any, county: string) => {
       const countyData = ROU[county].map((city: string) => {
         return { value: city, label: city }
       })
-      return {...acc, [county]: countyData }
+
+      return { ...acc, [county]: countyData }
     }, {})
 
-    setCounties(countyOptions);
-    setCities(cityOptions);
+    setCounties(countyOptions)
+    setCities(cityOptions)
   }, [])
 
-
   useEffect(() => {
-    addError && console.log(addError);
-  }, [addError]);
+    addError && console.log(addError)
+  }, [addError])
 
-  const updateInputField = ( { target } : { target: HTMLInputElement }): void =>
-    setCompany({...company, [target.name]: target.value})
+  const updateInputField = ({ target }: { target: HTMLInputElement }): void =>
+    setCompany({ ...company, [target.name]: target.value })
 
-  const updateDropdownField = ({ target } : { target: HTMLInputElement}, value: string): void =>
-    setCompany({...company, [target.name]: value})
+  const updateDropdownField = (
+    { target }: { target: HTMLInputElement },
+    value: string
+  ): void => setCompany({ ...company, [target.name]: value })
 
   const handleAddCompany = () => {
-    const fields = Object.keys(company).map((key) => {return {key, value: company[key]}})
-    const document = { fields: fields }
+    const fields = Object.keys(company).map(key => {
+      return { key, value: company[key] }
+    })
+
+    const document = { fields }
+
     addDocument({
-      variables: { acronym: "MC", document }
+      variables: { acronym: 'MC', document },
     })
   }
 
   return (
     <ContentWrapper {...headerConfig}>
-      {() =>
+      {() => (
         <ContentBox shouldAllowGrowing maxWidthStep={6}>
           <div className="mb5">
             <Input
@@ -216,7 +230,7 @@ const CompaniesPageAdd = (props: any) => {
             </Button>
           </div>
         </ContentBox>
-      }
+      )}
     </ContentWrapper>
   )
 }

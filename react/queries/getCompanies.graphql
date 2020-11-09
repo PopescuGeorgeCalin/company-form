@@ -3,15 +3,15 @@ query GetCompanies($where: String) @context(scope: "private") {
     acronym: "MC"
     where: $where
     fields: [
-      "email",
-      "companyCIF",
-      "companyName",
-      "companyNrRegCom",
-      "bank",
-      "iban",
-      "strada",
-      "judet",
-      "oras",
+      "email"
+      "companyCIF"
+      "companyName"
+      "companyNrRegCom"
+      "bank"
+      "iban"
+      "strada"
+      "judet"
+      "oras"
       "active"
     ]
   ) @context(provider: "vtex.store-graphql") {

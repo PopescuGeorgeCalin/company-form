@@ -37,15 +37,15 @@ interface Client {
 
 interface Company {
   company: {
-    email: string,
-    companyCIF: string,
-    companyName: string,
-    companyNrRegCom: string,
-    bank: string,
-    iban: string,
-    strada: string,
-    judet: string,
-    oras: string,
+    email: string
+    companyCIF: string
+    companyName: string
+    companyNrRegCom: string
+    bank: string
+    iban: string
+    strada: string
+    judet: string
+    oras: string
     id: string
   }
 }
