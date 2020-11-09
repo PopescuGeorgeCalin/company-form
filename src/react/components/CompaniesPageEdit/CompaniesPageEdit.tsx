@@ -12,13 +12,17 @@ import {
 } from 'vtex.my-account-commons'
 // @ts-ignore
 import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
+
+import ROU from '../../country'
 import ContentBox from '../shared/ContentBox'
 import withProfile from '../hocs/withProfile';
-import ROU from '../../country'
-import { normalizeFields } from '../../helpers'
+import withCompanyList from '../hocs/withCompanyList';
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
-import GET_COMPANIES  from '../../queries/getCompanies.graphql'
+import UPDATE_COMPANY from '../../queries/updateDocument.graphql'
+import GET_COMPANY_LIST  from '../../queries/getCompanyList.graphql'
 import GET_COMPANY  from '../../queries/getCompany.graphql'
+
+import { normalizeFields } from '../../helpers'
 import { useGetCompanyQuery } from '../../hooks/useGetCompanyQuery'
 
 const headerConfig = {
@@ -30,17 +34,27 @@ const headerConfig = {
 }
 
 const CompaniesPageEdit = (props:any) => {
-  const { profile: { Email: email } } = props;
+  const { profile: { UserId: userId }, companyList } = props;
 
-  const { id }  = props.match?.params;
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [counties, setCounties] = useState<any>({})
-  const [cities, setCities] = useState<any>({})
-  const [company, setCompany] = useState<any>({})
+  const { id: companyId }  = props.match?.params;
+  const [counties, setCounties] = useState<any>([])
+  const [cities, setCities] = useState<any>([])
 
-  const companyQuery = useGetCompanyQuery({
+  const [company, setCompany] = useState<any>({
+    id: companyId,
+    companyCIF: "",
+    companyName: "",
+    companyNrRegCom: "",
+    bank: "",
+    iban: "",
+    strada: "",
+    judet: "",
+    oras: "",
+  })
+
+  const getCompanyQuery = useGetCompanyQuery({
     variables: {
-      id
+      id: companyId
     }
   })
 
@@ -56,14 +70,14 @@ const CompaniesPageEdit = (props:any) => {
     },
     refetchQueries: [{
       query: GET_COMPANY,
-      variables: { id }
+      variables: { id: companyId }
     }]
   });
 
   const [
     deleteDocument,
     { loading: deleteLoading , error: deleteError }
-  ] = useMutation(UPDATE_DOCUMENT, {
+  ] = useMutation(UPDATE_COMPANY, {
     onCompleted() {
       props.history.push("/my-companies?success=true")
     },
@@ -71,23 +85,20 @@ const CompaniesPageEdit = (props:any) => {
       console.log(err)
     },
     refetchQueries: () => [{
-      query: GET_COMPANIES,
-      variables: { where: `active=true AND email=${email}` }
+      query: GET_COMPANY_LIST,
+      variables: { id: userId }
     }]
   });
 
   useEffect(() => {
-    if (companyQuery.loading) {
-      setIsLoading(true)
-    } else {
-      const document = companyQuery.data?.document;
+    if (!getCompanyQuery.loading) {
+      const document = getCompanyQuery.data?.document;
       if (document) {
         const company = normalizeFields(document);
-        setCompany(company)
-        setIsLoading(false)
+        setCompany({id: companyId, ...company})
       }
     }
-  }, [companyQuery])
+  }, [getCompanyQuery])
 
   useEffect(() => {
     const countyOptions = Object.keys(ROU).map((county: string) => {
@@ -113,9 +124,9 @@ const CompaniesPageEdit = (props:any) => {
     deleteError && console.log(deleteError);
   }, [deleteError]);
 
-  if (isLoading)
+  if (getCompanyQuery.loading)
     return (
-      <BaseLoading queryData={companyQuery} headerConfig={headerConfig}>
+      <BaseLoading queryData={getCompanyQuery} headerConfig={headerConfig}>
         <SkeletonBox shouldAllowGrowing />
       </BaseLoading>
     )
@@ -135,17 +146,39 @@ const CompaniesPageEdit = (props:any) => {
   }
 
   const handleDeleteCompany = () => {
-    const document = {
+    const newCompanyList = companyList.
+    filter((_companyId: string) => _companyId.trim() != companyId.trim()).
+    join(',');
+    
+    // document to change the MC entity
+    const documentMC = {
       fields: [
-        {"key": "id",     "value": company.id},
+        {"key": "id",     "value": companyId },
         {"key": "active", "value": false}
       ]
+    };
+
+    // document to change the ML entity 
+    const documentML = {
+      fields: [
+        {"key": "id", "value": userId},
+        {"key": "companyList", "value": newCompanyList }
+      ]
     }
+    console.log({
+      variables: { 
+        documentMC: documentMC,
+        documentML: documentML 
+      }
+    });
+    
     deleteDocument({
-      variables: { acronym: "MC", document }
+      variables: { 
+        documentMC: documentMC,
+        documentML: documentML 
+      }
     })
   }
-
   return (
     <ContentWrapper {...headerConfig}>
       {() =>
@@ -268,4 +301,4 @@ const CompaniesPageEdit = (props:any) => {
   )
 }
 
-export default withProfile(CompaniesPageEdit)
+export default withProfile(withCompanyList(CompaniesPageEdit));

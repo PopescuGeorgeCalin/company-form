@@ -12,9 +12,12 @@ import {
 import { EmptyState, Input, Dropdown, Button } from 'vtex.styleguide'
 import ContentBox from '../shared/ContentBox'
 import withProfile from '../hocs/withProfile'
+import withCompanyList from '../hocs/withCompanyList'
 import ROU from '../../country'
 import CREATE_DOCUMENT from '../../queries/createDocument.graphql'
 import GET_COMPANIES  from '../../queries/getCompanies.graphql'
+import GET_COMPANY_LIST  from '../../queries/getCompanyList.graphql'
+import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 
 const headerConfig = {
   titleId: 'my-companies-add.page',
@@ -25,10 +28,11 @@ const headerConfig = {
 }
 
 const CompaniesPageAdd = (props: any) => {
-  const { profile: { Email: email } } = props;
+  const { profile: { Email: email, UserId: userId }, companyList } = props;
   const [counties, setCounties] = useState<Array<object>>([])
   const [cities, setCities] = useState<Array<object>>([])
   const [company, setCompany] = useState<any>({
+    email,
     companyCIF: "",
     companyName: "",
     companyNrRegCom: "",
@@ -42,11 +46,20 @@ const CompaniesPageAdd = (props: any) => {
 
   const [
     addDocument,
-    { loading: addLoading , error: addError }
+    { data: newDocument, loading: addLoading , error: addError }
   ] = useMutation(CREATE_DOCUMENT, {
-    onCompleted(data) {
-      console.log(data)
-      props.history.push("/my-companies?success=true")
+    onCompleted({createDocument}) {
+      // remove first 3 caracters "MC-"
+      const newDocumentId = createDocument.id.substring(3)
+      const newCompanyList = [...companyList, newDocumentId].join(',')
+      const fields = [
+        { key: "id", value: userId },
+        { key: "companyList", value: newCompanyList}
+      ]
+      const document = { fields }
+      updateDocument({
+        variables: { acronym: "ML", document: document }
+      })
     },
     onError(err) {
       console.log(err)
@@ -54,6 +67,23 @@ const CompaniesPageAdd = (props: any) => {
     refetchQueries: () => [{
       query: GET_COMPANIES,
       variables: { where: `active=true AND email=${email}` }
+    }]
+  });
+
+  const [
+    updateDocument,
+  ] = useMutation(UPDATE_DOCUMENT, {
+    onCompleted() {
+      props.history.push("/my-companies?success=true")
+    },
+    onError(err) {
+      console.log(err)
+    },
+    refetchQueries: () => [{
+      query: GET_COMPANY_LIST,
+      variables: {
+        id: userId
+      }
     }]
   });
 
@@ -77,7 +107,7 @@ const CompaniesPageAdd = (props: any) => {
   useEffect(() => {
     console.log(addError);
   }, [addError]);
-
+  
   const updateInputField = ( { target } : { target: HTMLInputElement }): void =>
     setCompany({...company, [target.name]: target.value})
 
@@ -86,13 +116,12 @@ const CompaniesPageAdd = (props: any) => {
 
   const handleAddCompany = () => {
     const fields = Object.keys(company).map((key) => {return {key, value: company[key]}})
-    fields.push({key: "email", value: email});
-    const document = { fields }
-    console.log(document);
+    const document = { fields: fields }
     addDocument({
       variables: { acronym: "MC", document }
     })
   }
+
   return (
     <ContentWrapper {...headerConfig}>
       {() =>
@@ -189,8 +218,7 @@ const CompaniesPageAdd = (props: any) => {
         </ContentBox>
       }
     </ContentWrapper>
-
   )
 }
 
-export default withProfile(CompaniesPageAdd)
+export default withProfile(withCompanyList(CompaniesPageAdd))
