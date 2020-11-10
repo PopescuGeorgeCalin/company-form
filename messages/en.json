@@ -1,9 +1,20 @@
 {
+  "store/commons.alertSuccess": "Your information has been saved successfully.",
+  "store/commons.delete": "Delete",
+  "store/commons.edit": "Edit",
+  "store/commons.save": "Save",
+  "store/my-companies-add.page": "Add organization",
+  "store/my-companies-edit.page": "Edit organization",
+  "store/my-companies.CIF": "CIF",
+  "store/my-companies.companiesNotFound": "Sorry. We couldn't find any companies associated with your user.",
+  "store/my-companies.addCompany": "Add organization",
+  "store/my-companies.bank": "Bank",
+  "store/my-companies.city": "City",
+  "store/my-companies.county": "County",
+  "store/my-companies.ibanAccount": "IBAN Account",
   "store/my-companies.link": "My organizations",
   "store/my-companies.page": "My organizations",
-  "store/my-companies-edit.page": "Edit organization",
-  "store/my-companies-add.page": "Add organization",
-  "store/commons.edit": "Edit",
-  "store/my-companies.addCompany": "Add organization",
-  "store/alert.success": "Your information has been saved successfully."
+  "store/my-companies.registerNumber": "Trade Register Number",
+  "store/my-companies.street": "Street",
+  "store/my-companies.tradeName": "Trade Name"
 }

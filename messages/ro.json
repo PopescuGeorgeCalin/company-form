@@ -1,9 +1,20 @@
 {
+  "store/commons.alertSuccess": "Informațiile tale au fost salvate cu succes.",
+  "store/commons.delete": "Sterge",
+  "store/commons.edit": "Modifica",
+  "store/commons.save": "Salveza",
+  "store/my-companies-add.page": "Adauga companie",
+  "store/my-companies-edit.page": "Modifica compania",
+  "store/my-companies.CIF": "CIF",
+  "store/my-companies.addCompany": "Adaugă companie",
+  "store/my-companies.companiesNotFound": "Ne pare rau. Nu am putut găsi nicio companie asociată cu utilizatorul dvs.",
+  "store/my-companies.bank": "Bancă",
+  "store/my-companies.city": "Oraș",
+  "store/my-companies.county": "Județ",
+  "store/my-companies.ibanAccount": "Cont IBAN",
   "store/my-companies.link": "Companiile mele",
   "store/my-companies.page": "Companiile mele",
-  "store/my-companies-edit.page": "Modifica compania",
-  "store/my-companies-add.page": "Adauga companie",
-  "store/commons.edit": "Modifica",
-  "store/my-companies.addCompany": "Adaugă companie",
-  "store/alert.success": "Informațiile tale au fost salvate cu succes."
+  "store/my-companies.registerNumber": "Număr registrul comerțului",
+  "store/my-companies.street": "Stradă",
+  "store/my-companies.tradeName": "Denumire comercială"
 }

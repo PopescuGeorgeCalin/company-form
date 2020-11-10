@@ -1,9 +1,20 @@
 {
+  "store/commons.alertSuccess": "store/commons.alertSuccess",
+  "store/commons.delete": "store/commons.delete",
+  "store/commons.edit": "store/commons.edit",
+  "store/commons.save": "store/commons.save",
+  "store/my-companies-add.page": "my-companies-ad.page",
+  "store/my-companies-edit.page": "store/my-companies-edit.page",
+  "store/my-companies.CIF": "store/my-companies.CIF",
+  "store/my-companies.addCompany": "store/my-companies.addCompany",
+  "store/my-companies.bank": "store/my-companies.bank",
+  "store/my-companies.city": "store/my-companies.city",
+  "store/my-companies.companiesNotFound": "my-companies.companiesNotFound",
+  "store/my-companies.county": "store/my-companies.county",
+  "store/my-companies.ibanAccount": "store/my-companies.ibanBaccount",
   "store/my-companies.link": "store/my-companies.link",
   "store/my-companies.page": "store/my-companies.page",
-  "store/my-companies-edit.page": "store/my-companies-edit.page",
-  "store/my-companies-add.page": "my-companies-ad.page",
-  "store/commons.edit": "store/commons.edit",
-  "store/my-companies.addCompany": "store/my-companies.addCompany",
-  "store/alert.success": "store/alert.success"
+  "store/my-companies.registerNumber": "store/my-companies.registerNumber",
+  "store/my-companies.street": "store/my-companies.street",
+  "store/my-companies.tradeName": "store/my-companies.tradeName"
 }

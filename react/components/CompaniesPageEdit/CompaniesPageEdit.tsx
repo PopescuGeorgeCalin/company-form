@@ -216,9 +216,9 @@ const CompaniesPageEdit = (props: any) => {
           <ContentBox shouldAllowGrowing maxWidthStep={6}>
             <div className="mb5">
               <Input
-                placeholder="CIF"
+                placeholder={<FormattedMessage id="store/my-companies.CIF" />}
+                label={<FormattedMessage id="store/my-companies.CIF" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
-                label="CIF"
                 name="companyCIF"
                 value={company.companyCIF}
                 onChange={updateInputField}
@@ -226,9 +226,11 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder="Denumire comercială"
+                placeholder={
+                  <FormattedMessage id="store/my-companies.tradeName" />
+                }
+                label={<FormattedMessage id="store/my-companies.tradeName" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
-                label="Denumire comercială"
                 name="companyName"
                 value={company.companyName}
                 onChange={updateInputField}
@@ -236,9 +238,13 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder="Număr registrul comerțului"
+                placeholder={
+                  <FormattedMessage id="store/my-companies.registerNumber" />
+                }
+                label={
+                  <FormattedMessage id="store/my-companies.registerNumber" />
+                }
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
-                label="Număr registrul comerțului"
                 name="companyNrRegCom"
                 value={company.companyNrRegCom}
                 onChange={updateInputField}
@@ -246,9 +252,9 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder="Bancă"
+                placeholder={<FormattedMessage id="store/my-companies.bank" />}
+                label={<FormattedMessage id="store/my-companies.bank" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
-                label="Bancă"
                 name="bank"
                 value={company.bank}
                 onChange={updateInputField}
@@ -256,9 +262,11 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder="Cont IBAN"
+                placeholder={
+                  <FormattedMessage id="store/my-companies.ibanAccount" />
+                }
+                label={<FormattedMessage id="store/my-companies.ibanAccount" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
-                label="Cont IBAN"
                 name="iban"
                 value={company.iban}
                 onChange={updateInputField}
@@ -267,9 +275,11 @@ const CompaniesPageEdit = (props: any) => {
 
             <div className="mb5">
               <Input
-                placeholder="Stradă"
+                placeholder={
+                  <FormattedMessage id="store/my-companies.street" />
+                }
+                label={<FormattedMessage id="store/my-companies.street" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
-                label="Stradă"
                 name="strada"
                 value={company.strada}
                 onChange={updateInputField}
@@ -278,7 +288,8 @@ const CompaniesPageEdit = (props: any) => {
 
             <div className="mb5">
               <Dropdown
-                label="Județ"
+                label={<FormattedMessage id="store/my-companies.city" />}
+                placeholder={<FormattedMessage id="store/my-companies.city" />}
                 options={counties}
                 name="judet"
                 value={company.judet}
@@ -304,7 +315,7 @@ const CompaniesPageEdit = (props: any) => {
                 isLoading={editLoading}
                 onClick={handleEditCompany}
               >
-                Save
+                <FormattedMessage id="store/commons.save" />
               </Button>
             </div>
             <div className="mt5">
@@ -315,7 +326,7 @@ const CompaniesPageEdit = (props: any) => {
                 isLoading={deleteLoading}
                 onClick={handleDeleteCompany}
               >
-                Delete
+                <FormattedMessage id="store/commons.delete" />
               </Button>
             </div>
           </ContentBox>
