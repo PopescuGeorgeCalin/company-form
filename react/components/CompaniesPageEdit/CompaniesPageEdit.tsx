@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useEffect, useState } from 'react'
-// import { useHistory } from "react-router-dom"
 import { useMutation } from 'react-apollo'
 import {
   // @ts-ignore
@@ -25,18 +23,12 @@ import GET_COMPANY from '../../queries/getCompany.graphql'
 import { normalizeFields } from '../../helpers'
 import { useGetCompanyQuery } from '../../hooks/useGetCompanyQuery'
 
-const headerConfig = {
-  title: <FormattedMessage id="store/my-companies-edit.page" />,
-  backButton: {
-    titleId: 'store/my-companies.page',
-    path: '/my-companies',
-  },
-}
 
 const CompaniesPageEdit = (props: any) => {
   const {
     profile: { UserId: userId },
     companyList,
+    headerConfig
   } = props
 
   const { id: companyId } = props.match?.params
@@ -66,7 +58,7 @@ const CompaniesPageEdit = (props: any) => {
     { loading: editLoading, error: editError },
   ] = useMutation(UPDATE_DOCUMENT, {
     onCompleted() {
-      props.history.push('/my-companies?success=true')
+      goBackWithSuccess()
     },
     onError(err) {
       console.log(err)
@@ -79,12 +71,16 @@ const CompaniesPageEdit = (props: any) => {
     ],
   })
 
+  const goBackWithSuccess = () => {
+    props.history.push('/my-companies?success=true')
+  }
+
   const [
     deleteDocumentML,
     { loading: deleteLoadingML, error: deleteErrorML },
   ] = useMutation(UPDATE_DOCUMENT, {
     onCompleted() {
-      props.history.push('/my-companies?success=true')
+      goBackWithSuccess()
     },
     onError(err) {
       console.log(err)
@@ -216,7 +212,6 @@ const CompaniesPageEdit = (props: any) => {
           <ContentBox shouldAllowGrowing maxWidthStep={6}>
             <div className="mb5">
               <Input
-                placeholder={<FormattedMessage id="store/my-companies.CIF" />}
                 label={<FormattedMessage id="store/my-companies.CIF" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
                 name="companyCIF"
@@ -226,9 +221,6 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder={
-                  <FormattedMessage id="store/my-companies.tradeName" />
-                }
                 label={<FormattedMessage id="store/my-companies.tradeName" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
                 name="companyName"
@@ -238,9 +230,6 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder={
-                  <FormattedMessage id="store/my-companies.registerNumber" />
-                }
                 label={
                   <FormattedMessage id="store/my-companies.registerNumber" />
                 }
@@ -252,7 +241,6 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder={<FormattedMessage id="store/my-companies.bank" />}
                 label={<FormattedMessage id="store/my-companies.bank" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
                 name="bank"
@@ -262,9 +250,6 @@ const CompaniesPageEdit = (props: any) => {
             </div>
             <div className="mb5">
               <Input
-                placeholder={
-                  <FormattedMessage id="store/my-companies.ibanAccount" />
-                }
                 label={<FormattedMessage id="store/my-companies.ibanAccount" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
                 name="iban"
@@ -275,9 +260,6 @@ const CompaniesPageEdit = (props: any) => {
 
             <div className="mb5">
               <Input
-                placeholder={
-                  <FormattedMessage id="store/my-companies.street" />
-                }
                 label={<FormattedMessage id="store/my-companies.street" />}
                 dataAttributes={{ 'hj-white-list': true, test: 'string' }}
                 name="strada"
@@ -289,7 +271,6 @@ const CompaniesPageEdit = (props: any) => {
             <div className="mb5">
               <Dropdown
                 label={<FormattedMessage id="store/my-companies.city" />}
-                placeholder={<FormattedMessage id="store/my-companies.city" />}
                 options={counties}
                 name="judet"
                 value={company.judet}
@@ -333,7 +314,7 @@ const CompaniesPageEdit = (props: any) => {
         ) : (
           <EmptyState title="Oops.">
             <p>
-              Sorry. We couldn't find any companies associated with your user.
+              <FormattedMessage id="store/my-companies.companiesNotFound" />
             </p>
           </EmptyState>
         )

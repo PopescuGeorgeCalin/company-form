@@ -16,5 +16,6 @@
   "store/my-companies.page": "My organizations",
   "store/my-companies.registerNumber": "Trade Register Number",
   "store/my-companies.street": "Street",
-  "store/my-companies.tradeName": "Trade Name"
+  "store/my-companies.tradeName": "Trade Name",
+  "store/my-companies.address": "Address"
 }

@@ -20,18 +20,11 @@ import GET_COMPANIES from '../../queries/getCompanies.graphql'
 import GET_COMPANY_LIST from '../../queries/getCompanyList.graphql'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 
-const headerConfig = {
-  title: <FormattedMessage id="store/my-companies-add.page" />,
-  backButton: {
-    titleId: 'store/my-companies.page',
-    path: '/my-companies',
-  },
-}
-
 const CompaniesPageAdd = (props: any) => {
   const {
     profile: { Email: email, UserId: userId },
     companyList,
+    headerConfig,
   } = props
 
   const [counties, setCounties] = useState<any[]>([])
@@ -66,24 +59,30 @@ const CompaniesPageAdd = (props: any) => {
     ],
   })
 
+  const onCompletedAddDocument = ({
+    createDocument,
+  }: {
+    createDocument: any
+  }) => {
+    // remove first 3 caracters "MC-"
+    const newDocumentId = createDocument.id.substring(3)
+    const newCompanyList = [...companyList, newDocumentId].join(',')
+    const fields = [
+      { key: 'id', value: userId },
+      { key: 'companyList', value: newCompanyList },
+    ]
+
+    const document = { fields }
+
+    updateDocument({
+      variables: { acronym: 'ML', document },
+    })
+  }
+
   const [addDocument, { loading: addLoading, error: addError }] = useMutation(
     CREATE_DOCUMENT,
     {
-      onCompleted({ createDocument }) {
-        // remove first 3 caracters "MC-"
-        const newDocumentId = createDocument.id.substring(3)
-        const newCompanyList = [...companyList, newDocumentId].join(',')
-        const fields = [
-          { key: 'id', value: userId },
-          { key: 'companyList', value: newCompanyList },
-        ]
-
-        const document = { fields }
-
-        updateDocument({
-          variables: { acronym: 'ML', document },
-        })
-      },
+      onCompleted: onCompletedAddDocument,
       onError(err) {
         console.log(err)
       },
@@ -136,14 +135,12 @@ const CompaniesPageAdd = (props: any) => {
       variables: { acronym: 'MC', document },
     })
   }
-
   return (
     <ContentWrapper {...headerConfig}>
       {() => (
         <ContentBox shouldAllowGrowing maxWidthStep={6}>
           <div className="mb5">
             <Input
-              placeholder={<FormattedMessage id="store/my-companies.CIF" />}
               label={<FormattedMessage id="store/my-companies.CIF" />}
               dataAttributes={{ 'hj-white-list': true, test: 'string' }}
               name="companyCIF"
@@ -153,9 +150,6 @@ const CompaniesPageAdd = (props: any) => {
           </div>
           <div className="mb5">
             <Input
-              placeholder={
-                <FormattedMessage id="store/my-companies.tradeName" />
-              }
               label={<FormattedMessage id="store/my-companies.tradeName" />}
               dataAttributes={{ 'hj-white-list': true, test: 'string' }}
               name="companyName"
@@ -165,9 +159,6 @@ const CompaniesPageAdd = (props: any) => {
           </div>
           <div className="mb5">
             <Input
-              placeholder={
-                <FormattedMessage id="store/my-companies.registerNumber" />
-              }
               label={
                 <FormattedMessage id="store/my-companies.registerNumber" />
               }
@@ -179,7 +170,6 @@ const CompaniesPageAdd = (props: any) => {
           </div>
           <div className="mb5">
             <Input
-              placeholder={<FormattedMessage id="store/my-companies.bank" />}
               label={<FormattedMessage id="store/my-companies.bank" />}
               dataAttributes={{ 'hj-white-list': true, test: 'string' }}
               name="bank"
@@ -189,9 +179,6 @@ const CompaniesPageAdd = (props: any) => {
           </div>
           <div className="mb5">
             <Input
-              placeholder={
-                <FormattedMessage id="store/my-companies.ibanAccount" />
-              }
               label={<FormattedMessage id="store/my-companies.ibanAccount" />}
               dataAttributes={{ 'hj-white-list': true, test: 'string' }}
               name="iban"
@@ -201,7 +188,6 @@ const CompaniesPageAdd = (props: any) => {
           </div>
           <div className="mb5">
             <Input
-              placeholder={<FormattedMessage id="store/my-companies.street" />}
               label={<FormattedMessage id="store/my-companies.street" />}
               dataAttributes={{ 'hj-white-list': true, test: 'string' }}
               name="strada"
@@ -212,7 +198,6 @@ const CompaniesPageAdd = (props: any) => {
           <div className="mb5">
             <Dropdown
               label={<FormattedMessage id="store/my-companies.county" />}
-              placeholder={<FormattedMessage id="store/my-companies.county" />}
               options={counties}
               name="judet"
               value={company.judet}
@@ -222,7 +207,6 @@ const CompaniesPageAdd = (props: any) => {
           <div className="mb5">
             <Dropdown
               label={<FormattedMessage id="store/my-companies.city" />}
-              placeholder={<FormattedMessage id="store/my-companies.city" />}
               options={cities[company.judet]}
               name="oras"
               value={company.oras}

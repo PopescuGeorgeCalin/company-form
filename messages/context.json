@@ -16,5 +16,6 @@
   "store/my-companies.page": "store/my-companies.page",
   "store/my-companies.registerNumber": "store/my-companies.registerNumber",
   "store/my-companies.street": "store/my-companies.street",
-  "store/my-companies.tradeName": "store/my-companies.tradeName"
+  "store/my-companies.tradeName": "store/my-companies.tradeName",
+  "store/my-companies.address": "store/my-companies.address"
 }

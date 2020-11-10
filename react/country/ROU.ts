@@ -1,5 +1,5 @@
 const ROU: any = {
-  '': [],
+  '': [''],
   Alba: [
     '',
     'Abrud',

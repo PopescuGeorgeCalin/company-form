@@ -7,30 +7,15 @@ import {
   ContentWrapper,
 } from 'vtex.my-account-commons'
 // @ts-ignore
-import { EmptyState, Button } from 'vtex.styleguide'
-import { FormattedMessage } from 'react-intl'
+import { EmptyState } from 'vtex.styleguide'
 
 import Toast from '../shared/Toast'
 import withProfile from '../hocs/withProfile'
 import withCompanyList from '../hocs/withCompanyList'
 import CompaniesListItem from '../CompaniesListItem'
 
-const headerConfig = {
-  title: <FormattedMessage id="store/my-companies.page" />,
-  headerContent: (
-    <Button
-      variation="primary"
-      block
-      size="small"
-      href="/account#/my-companies/add"
-    >
-      <FormattedMessage id="store/my-companies.addCompany" />
-    </Button>
-  ),
-}
-
 const CompaniesPage = (props: any) => {
-  const { companyList } = props
+  const { companyList, headerConfig } = props
   const [showToast, setShowToast] = useState<boolean>(false)
 
   useEffect(() => {

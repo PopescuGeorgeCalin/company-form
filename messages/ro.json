@@ -16,5 +16,6 @@
   "store/my-companies.page": "Companiile mele",
   "store/my-companies.registerNumber": "Număr registrul comerțului",
   "store/my-companies.street": "Stradă",
-  "store/my-companies.tradeName": "Denumire comercială"
+  "store/my-companies.tradeName": "Denumire comercială",
+  "store/my-companies.address": "Addresa"
 }

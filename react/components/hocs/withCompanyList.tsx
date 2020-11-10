@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-// import { Spinner } from 'vtex.styleguide'
-// import { EmptyState } from 'vtex.styleguide';
+// @ts-ignore
 import { BaseLoading, SkeletonBox } from 'vtex.my-account-commons'
 import { useMutation, useQuery } from 'react-apollo'
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 interface CompanyProps {
   company: {
@@ -23,15 +24,15 @@ const CompanySummary = (props: Props) => {
   return (
     <div className={`address-summary`}>
       <div>
-        <span>Nume: </span>
+        <span><FormattedMessage id="store/my-companies.tradeName"/></span>
         <span>{companyName}</span>
       </div>
       <div>
-        <span>CIF: </span>
+        <span><FormattedMessage id="store/my-companies.CIF"/></span>
         <span>{companyCIF}</span>
       </div>
       <div>
-        <span>Adresa: </span>
+        <span><FormattedMessage id="store/my-companies.address"/></span>
         <span>{`Judet ${judet}, oras ${oras}, strada ${strada}`}</span>
       </div>
     </div>

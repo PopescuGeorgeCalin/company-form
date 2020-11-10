@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { normalizeFields } from '../../helpers'
@@ -19,16 +19,15 @@ const CompaniesListItem: FunctionComponent<Props> = ({ id }) => {
       id,
     },
   })
+  const { data, loading, error } = companyQuery;
 
-  if (companyQuery.error) {
-    console.log(companyQuery)
+  useEffect(() => {
+    error && console.log(error);
+  }, [error])
 
-    return null
-  }
+  if (loading || error) return null
 
-  if (companyQuery.loading) return null
-
-  const document = companyQuery.data?.document
+  const document = data?.document
   const company = normalizeFields(document)
 
   return (
