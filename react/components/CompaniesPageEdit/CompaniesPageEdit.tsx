@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react'
@@ -15,27 +16,27 @@ import { FormattedMessage } from 'react-intl'
 
 import ROU from '../../country'
 import ContentBox from '../shared/ContentBox'
-import withProfile from '../hocs/withProfile'
-import withCompanyList from '../hocs/withCompanyList'
+import withExtraProps from '../hocs/withExtraProps'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 import GET_COMPANY_LIST from '../../queries/getCompanyList.graphql'
 import GET_COMPANY from '../../queries/getCompany.graphql'
 import { normalizeFields } from '../../helpers'
 import { useGetCompanyQuery } from '../../hooks/useGetCompanyQuery'
+import { PageProps, Company, Option } from '../../typings/utils'
+import { Field } from '../../typings/masterdata'
 
-
-const CompaniesPageEdit = (props: any) => {
+const CompaniesPageEdit = (props: PageProps) => {
   const {
     profile: { UserId: userId },
     companyList,
-    headerConfig
+    headerConfig,
   } = props
 
   const { id: companyId } = props.match?.params
-  const [counties, setCounties] = useState<any>([])
-  const [cities, setCities] = useState<any>([])
+  const [counties, setCounties] = useState<Option[]>([])
+  const [cities, setCities] = useState<Record<string, Option[]>>({})
 
-  const [company, setCompany] = useState<any>({
+  const [company, setCompany] = useState<Company>({
     id: companyId,
     companyCIF: '',
     companyName: '',
@@ -52,6 +53,10 @@ const CompaniesPageEdit = (props: any) => {
       id: companyId,
     },
   })
+
+  const goBackWithSuccess = () => {
+    props.history.push('/my-companies?success=true')
+  }
 
   const [
     updateDocument,
@@ -70,10 +75,6 @@ const CompaniesPageEdit = (props: any) => {
       },
     ],
   })
-
-  const goBackWithSuccess = () => {
-    props.history.push('/my-companies?success=true')
-  }
 
   const [
     deleteDocumentML,
@@ -177,9 +178,11 @@ const CompaniesPageEdit = (props: any) => {
   ): void => setCompany({ ...company, [target.name]: value })
 
   const handleEditCompany = () => {
-    const fields = Object.keys(company).map(key => {
-      return { key, value: company[key] }
-    })
+    const fields: Field[] = []
+
+    for (const [key, value] of Object.entries(company)) {
+      fields.push({ key, value })
+    }
 
     const document = { fields }
 
@@ -323,4 +326,4 @@ const CompaniesPageEdit = (props: any) => {
   )
 }
 
-export default withProfile(withCompanyList(CompaniesPageEdit))
+export default withExtraProps(CompaniesPageEdit)

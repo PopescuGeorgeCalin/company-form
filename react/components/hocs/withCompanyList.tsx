@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { BaseLoading, SkeletonBox } from 'vtex.my-account-commons'
 import { useMutation, useQuery } from 'react-apollo'

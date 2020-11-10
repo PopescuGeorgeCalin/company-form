@@ -20,11 +20,13 @@ const headerConfig = {
 }
 
 const MyCompaniesPage = () => {
-  return <Route path="/my-companies" exact
-  render={props => (
-    <CompaniesPage {...props} headerConfig={headerConfig} />
-  )}
-  />
+  return (
+    <Route
+      path="/my-companies"
+      exact
+      render={props => <CompaniesPage {...props} headerConfig={headerConfig} />}
+    />
+  )
 }
 
 export default MyCompaniesPage

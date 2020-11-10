@@ -12,24 +12,25 @@ import { Input, Dropdown, Button } from 'vtex.styleguide'
 import { FormattedMessage } from 'react-intl'
 
 import ContentBox from '../shared/ContentBox'
-import withProfile from '../hocs/withProfile'
-import withCompanyList from '../hocs/withCompanyList'
+import withExtraProps from '../hocs/withExtraProps'
 import ROU from '../../country'
 import CREATE_DOCUMENT from '../../queries/createDocument.graphql'
 import GET_COMPANIES from '../../queries/getCompanies.graphql'
 import GET_COMPANY_LIST from '../../queries/getCompanyList.graphql'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
+import { PageProps, Company, Option } from '../../typings/utils'
+import { Field } from '../../typings/masterdata'
 
-const CompaniesPageAdd = (props: any) => {
+const CompaniesPageAdd = (props: PageProps) => {
   const {
     profile: { Email: email, UserId: userId },
     companyList,
     headerConfig,
   } = props
 
-  const [counties, setCounties] = useState<any[]>([])
-  const [cities, setCities] = useState<any[]>([])
-  const [company, setCompany] = useState<any>({
+  const [counties, setCounties] = useState<Option[]>([])
+  const [cities, setCities] = useState<Record<string, Option[]>>({})
+  const [company, setCompany] = useState<Company>({
     email,
     companyCIF: '',
     companyName: '',
@@ -125,9 +126,11 @@ const CompaniesPageAdd = (props: any) => {
   ): void => setCompany({ ...company, [target.name]: value })
 
   const handleAddCompany = () => {
-    const fields = Object.keys(company).map(key => {
-      return { key, value: company[key] }
-    })
+    const fields: Field[] = []
+
+    for (const [key, value] of Object.entries(company)) {
+      fields.push({ key, value })
+    }
 
     const document = { fields }
 
@@ -135,6 +138,7 @@ const CompaniesPageAdd = (props: any) => {
       variables: { acronym: 'MC', document },
     })
   }
+
   return (
     <ContentWrapper {...headerConfig}>
       {() => (
@@ -230,4 +234,4 @@ const CompaniesPageAdd = (props: any) => {
   )
 }
 
-export default withProfile(withCompanyList(CompaniesPageAdd))
+export default withExtraProps(CompaniesPageAdd)

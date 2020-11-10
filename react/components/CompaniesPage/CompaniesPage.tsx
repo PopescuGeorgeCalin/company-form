@@ -8,13 +8,14 @@ import {
 } from 'vtex.my-account-commons'
 // @ts-ignore
 import { EmptyState } from 'vtex.styleguide'
+import { FormattedMessage } from 'react-intl'
 
 import Toast from '../shared/Toast'
-import withProfile from '../hocs/withProfile'
-import withCompanyList from '../hocs/withCompanyList'
+import withExtraProps from '../hocs/withExtraProps'
 import CompaniesListItem from '../CompaniesListItem'
+import { PageProps } from '../../typings/utils'
 
-const CompaniesPage = (props: any) => {
+const CompaniesPage = (props: PageProps) => {
   const { companyList, headerConfig } = props
   const [showToast, setShowToast] = useState<boolean>(false)
 
@@ -37,7 +38,7 @@ const CompaniesPage = (props: any) => {
           jsx = [
             <EmptyState key="empty-state" title="Oops.">
               <p>
-                Sorry. We couldn't find any companies associated with your user.
+                <FormattedMessage id="store/my-companies.companiesNotFound" />
               </p>
             </EmptyState>,
           ]
@@ -54,4 +55,4 @@ const CompaniesPage = (props: any) => {
   )
 }
 
-export default withProfile(withCompanyList(CompaniesPage))
+export default withExtraProps(CompaniesPage)

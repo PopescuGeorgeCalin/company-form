@@ -7,11 +7,11 @@ import ContentBox from '../shared/ContentBox'
 import CompanySummary from '../CompanySummary'
 import { useGetCompanyQuery } from '../../hooks/useGetCompanyQuery'
 
-interface CompanyProps {
+interface CompaniesListItemProps {
   id: string
 }
 
-type Props = CompanyProps
+type Props = CompaniesListItemProps
 
 const CompaniesListItem: FunctionComponent<Props> = ({ id }) => {
   const companyQuery = useGetCompanyQuery({
@@ -19,10 +19,11 @@ const CompaniesListItem: FunctionComponent<Props> = ({ id }) => {
       id,
     },
   })
-  const { data, loading, error } = companyQuery;
+
+  const { data, loading, error } = companyQuery
 
   useEffect(() => {
-    error && console.log(error);
+    error && console.log(error)
   }, [error])
 
   if (loading || error) return null
@@ -39,7 +40,7 @@ const CompaniesListItem: FunctionComponent<Props> = ({ id }) => {
         btnHref={`/account#/my-companies/edit/${id}`}
       >
         <div className="lighter c-muted-2 lh-copy pv4 w5 h4">
-          <CompanySummary company={company} />
+          <CompanySummary {...company} />
         </div>
       </ContentBox>
     </div>
