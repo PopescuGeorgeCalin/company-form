@@ -1,8 +1,8 @@
 {
-  "vendor": "vetrob2c",
+  "vendor": "vtex",
   "name": "companies-my-account",
-  "version": "0.0.1",
-  "title": "Vetro Companies My Account",
+  "version": "0.0.0",
+  "title": "Companies My Account",
   "description": "Allows customers to see the companies associated with it.",
   "builders": {
     "react": "3.x",
@@ -29,9 +29,7 @@
   "scripts": {
     "postreleasy": "vtex publish --verbose && vtex deploy --verbose"
   },
-  "registries": [
-    "smartcheckout"
-  ],
+  "registries": ["smartcheckout"],
   "policies": [],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
