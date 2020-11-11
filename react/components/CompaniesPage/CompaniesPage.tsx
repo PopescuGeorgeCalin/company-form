@@ -49,7 +49,11 @@ const CompaniesPage = (props: PageProps) => {
             <Toast key="toast-success" onClose={() => setShowToast(false)} />
           )
 
-        return jsx
+        return (
+          <div className="flex-ns flex-wrap-ns items-start-ns relative tl">
+            {jsx}
+          </div>
+        )
       }}
     </ContentWrapper>
   )

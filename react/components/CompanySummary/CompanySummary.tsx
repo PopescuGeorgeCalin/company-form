@@ -11,9 +11,6 @@ const CompanySummary = (props: Props) => {
   return (
     <div className={`address-summary`}>
       <div>
-        <span>
-          <FormattedMessage id="store/my-companies.tradeName" />:{' '}
-        </span>
         <span>{companyName}</span>
       </div>
       <div>

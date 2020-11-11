@@ -32,18 +32,14 @@ const CompaniesListItem: FunctionComponent<Props> = ({ id }) => {
   const company = normalizeFields(document)
 
   return (
-    <div>
-      <ContentBox
-        shouldAllowGrowing
-        maxWidthStep={6}
-        btnText={<FormattedMessage id="store/commons.edit" />}
-        btnHref={`/account#/my-companies/edit/${id}`}
-      >
-        <div className="lighter c-muted-2 lh-copy pv4 w5 h4">
-          <CompanySummary {...company} />
-        </div>
-      </ContentBox>
-    </div>
+    <ContentBox
+      btnText={<FormattedMessage id="store/commons.edit" />}
+      btnHref={`/account#/my-companies/edit/${id}`}
+    >
+      <div className="lighter c-muted-2 lh-copy pv4 w5 h4">
+        <CompanySummary {...company} />
+      </div>
+    </ContentBox>
   )
 }
 

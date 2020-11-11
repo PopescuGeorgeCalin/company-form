@@ -31,7 +31,7 @@ export interface HeaderConfig {
 }
 
 interface MatchParams {
-  id: string
+  id?: string
 }
 
 export interface PageProps extends RouteComponentProps<MatchParams> {

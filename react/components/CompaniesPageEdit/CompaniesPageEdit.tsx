@@ -96,7 +96,7 @@ const CompaniesPageEdit = (props: PageProps) => {
 
   const handleDeleteFromML = () => {
     const newCompanyList = companyList
-      .filter((_companyId: string) => _companyId.trim() !== companyId.trim())
+      .filter((_companyId: string) => _companyId.trim() !== companyId?.trim())
       .join(',')
 
     // document to change the ML entity
@@ -125,19 +125,7 @@ const CompaniesPageEdit = (props: PageProps) => {
     },
   })
 
-  useEffect(() => {
-    if (!getCompanyQuery.loading) {
-      const document = getCompanyQuery.data?.document
-
-      if (document) {
-        const newCompany = normalizeFields(document)
-
-        setCompany({ id: companyId, ...newCompany })
-      }
-    }
-  }, [getCompanyQuery])
-
-  useEffect(() => {
+  const setDropdownOptions = () => {
     const countyOptions = Object.keys(ROU).map((county: string) => {
       return { value: county, label: county }
     })
@@ -152,7 +140,23 @@ const CompaniesPageEdit = (props: PageProps) => {
 
     setCounties(countyOptions)
     setCities(cityOptions)
+  }
+
+  useEffect(() => {
+    setDropdownOptions()
   }, [])
+
+  useEffect(() => {
+    if (!getCompanyQuery.loading) {
+      const document = getCompanyQuery.data?.document
+
+      if (document) {
+        const newCompany = normalizeFields(document)
+
+        setCompany({ id: companyId, ...newCompany })
+      }
+    }
+  }, [getCompanyQuery])
 
   useEffect(() => {
     editError && console.log(editError)
@@ -307,7 +311,7 @@ const CompaniesPageEdit = (props: PageProps) => {
                 block
                 variation="danger"
                 size="small"
-                isLoading={deleteLoading}
+                isLoading={deleteLoading || deleteLoadingML}
                 onClick={handleDeleteCompany}
               >
                 <FormattedMessage id="store/commons.delete" />

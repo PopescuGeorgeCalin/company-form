@@ -16,7 +16,7 @@ const headerConfig = {
 }
 
 const withExtraProps = (WrappedComponent: any): any => ({ ...props }) => {
-  const [createDocument, { error }] = useMutation(CREATE_DOCUMENT)
+  const [createDocument, { error: errorCreate }] = useMutation(CREATE_DOCUMENT)
   const [companyList, setCompanyList] = useState<string[]>([])
   const [profile, setProfile] = useState<Profile>({
     Email: '',
@@ -72,8 +72,8 @@ const withExtraProps = (WrappedComponent: any): any => ({ ...props }) => {
   }, [companyListQuery])
 
   useEffect(() => {
-    error && console.log(error)
-  }, [error])
+    errorCreate && console.log(errorCreate)
+  }, [errorCreate])
 
   if (
     !companyListQuery.called ||

@@ -7,3 +7,9 @@ export interface Field {
   key: string
   value: string
 }
+
+export interface DocumentResponse {
+  id: string
+  href: string
+  documentId: string
+}

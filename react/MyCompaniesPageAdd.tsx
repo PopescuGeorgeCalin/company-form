@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import CompaniesPageAdd from './CompaniesPageAdd'
 
 const headerConfig = {
+  namespace: 'vtex-account__companies-add',
   title: <FormattedMessage id="store/my-companies-add.page" />,
   backButton: {
     titleId: 'store/my-companies.page',

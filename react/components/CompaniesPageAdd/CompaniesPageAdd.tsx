@@ -19,7 +19,7 @@ import GET_COMPANIES from '../../queries/getCompanies.graphql'
 import GET_COMPANY_LIST from '../../queries/getCompanyList.graphql'
 import UPDATE_DOCUMENT from '../../queries/updateDocument.graphql'
 import { PageProps, Company, Option } from '../../typings/utils'
-import { Field } from '../../typings/masterdata'
+import { Field, DocumentResponse } from '../../typings/masterdata'
 
 const CompaniesPageAdd = (props: PageProps) => {
   const {
@@ -63,7 +63,7 @@ const CompaniesPageAdd = (props: PageProps) => {
   const onCompletedAddDocument = ({
     createDocument,
   }: {
-    createDocument: any
+    createDocument: DocumentResponse
   }) => {
     // remove first 3 caracters "MC-"
     const newDocumentId = createDocument.id.substring(3)
@@ -96,7 +96,7 @@ const CompaniesPageAdd = (props: PageProps) => {
     }
   )
 
-  useEffect(() => {
+  const setDropdownOptions = () => {
     const countyOptions = Object.keys(ROU).map((county: string) => {
       return { value: county, label: county }
     })
@@ -111,6 +111,10 @@ const CompaniesPageAdd = (props: PageProps) => {
 
     setCounties(countyOptions)
     setCities(cityOptions)
+  }
+
+  useEffect(() => {
+    setDropdownOptions()
   }, [])
 
   useEffect(() => {

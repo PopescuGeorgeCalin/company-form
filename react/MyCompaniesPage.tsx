@@ -6,6 +6,7 @@ import { Button } from 'vtex.styleguide'
 import CompaniesPage from './CompaniesPage'
 
 const headerConfig = {
+  namespace: 'vtex-account__companies-list',
   title: <FormattedMessage id="store/my-companies.page" />,
   headerContent: (
     <Button
