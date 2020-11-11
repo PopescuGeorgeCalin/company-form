@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "companies-my-account",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "title": "Companies My Account",
   "description": "Allows customers to see the companies associated with it.",
   "builders": {
