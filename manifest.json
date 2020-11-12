@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "companies-my-account",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "title": "Companies My Account",
   "description": "Allows customers to see the companies associated with it.",
   "builders": {
@@ -29,7 +29,9 @@
   "scripts": {
     "postreleasy": "vtex publish --verbose && vtex deploy --verbose"
   },
-  "registries": ["smartcheckout"],
+  "registries": [
+    "smartcheckout"
+  ],
   "policies": [],
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
